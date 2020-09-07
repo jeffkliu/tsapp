@@ -85114,12 +85114,17 @@ var User =
 /** @class */
 function () {
   function User() {
+    this.color = 'red';
     this.name = faker_1.default.name.firstName();
     this.location = {
       lat: parseFloat(faker_1.default.address.latitude()),
       lng: parseFloat(faker_1.default.address.longitude())
     };
   }
+
+  User.prototype.markerContent = function () {
+    return "I am a user! " + this.name;
+  };
 
   User.prototype.getSummary = function () {
     console.log("This person's name is " + this.name + ". It lives at " + this.location.lat + ", " + this.location.lng);
@@ -85149,6 +85154,7 @@ var Company =
 /** @class */
 function () {
   function Company() {
+    this.color = 'blue';
     this.companyName = faker_1.default.company.companyName();
     this.catchPhrase = faker_1.default.company.catchPhrase();
     this.location = {
@@ -85156,6 +85162,10 @@ function () {
       lng: parseFloat(faker_1.default.address.longitude())
     };
   }
+
+  Company.prototype.markerContent = function () {
+    return "\n    <div>\n    <h1>I am a company! " + this.companyName + "</h1>\n\n    <h3>Catchphrase: " + this.catchPhrase + "</h3>\n    </div>\n    ";
+  };
 
   return Company;
 }();
@@ -85195,7 +85205,7 @@ function () {
     });
     marker.addListener('click', function () {
       var infoWindow = new google.maps.InfoWindow({
-        content: 'Hi there!'
+        content: mappable.markerContent()
       });
       infoWindow.open(_this.googleMap, marker);
     });
